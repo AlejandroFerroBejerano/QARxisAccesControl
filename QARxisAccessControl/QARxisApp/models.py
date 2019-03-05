@@ -120,12 +120,12 @@ class ActionCommand(models.Model):
     description = models.CharField(max_length = 100)
 
     def __str__(self):
-        return serlf.uri
+        return self.name
 
 class Door(models.Model):
     name = models.CharField(max_length=50)
     intercom = models.ForeignKey(Intercom, on_delete=models.CASCADE)
-    doors = models.ManyToManyField(ActionCommand)
+    actions_commands = models.ManyToManyField(ActionCommand)
 
     def __str__(self):
       return self.name
