@@ -19,6 +19,6 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('qarxisapp/', include('QARxisApp.urls')),
-    path('', RedirectView.as_view(url='/qarxisapp', permanent=True)),
+    path('', include('QARxisApp.urls')),
+    path('', RedirectView.as_view(url='/', permanent=True)),
 ]
