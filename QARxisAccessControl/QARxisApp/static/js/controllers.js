@@ -30,7 +30,7 @@ QARxisApp.controller("EventLogCtrl", function($scope, $http, $location, $timeout
   };
 
   $scope.refresh = function() {
-    $http.get('data/events.json').success(function(events) {
+    $http.get('api/?format=json').success(function(events) {
       $scope.events = events;
     }).error(function(){
       $scope.error = "Could not load Events information";
@@ -49,7 +49,7 @@ QARxisApp.controller("EventLogCtrl", function($scope, $http, $location, $timeout
 
   $scope.error = null;
 
-  $http.get('data/events.json')
+  $http.get('api/?format=json')
 	.success(function(events) {
 	    $scope.events = events;
 	})

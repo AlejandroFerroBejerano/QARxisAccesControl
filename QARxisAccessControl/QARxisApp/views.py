@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 import json
 from .models import Event, Intercom, ActionCommand, Door, AccessCode, Route, Person, Location
 from .models import User
-from django.db import models
+from . import models
 
 # Create your views here.
 @login_required(login_url="/login/")
