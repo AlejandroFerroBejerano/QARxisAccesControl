@@ -29,6 +29,10 @@ QARxisApp.controller("EventLogCtrl", function($scope, $http, $location, $timeout
     return $scope.state[status].tname;
   };
 
+  $scope.get_date = function(event) {
+    return $scope.event[event].tname;
+  };
+
   $scope.refresh = function() {
     $http.get('api/?format=json').success(function(events) {
       $scope.events = events;
