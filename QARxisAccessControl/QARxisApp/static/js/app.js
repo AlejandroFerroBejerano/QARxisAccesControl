@@ -1,14 +1,17 @@
 /* -*- mode: js; coding: utf-8 -*- */
-new Vue({
+var app= new Vue({
    el: '#pending_events',
    delimiters: ['[[',']]'],
    data: {
    events: [],
+   event_status: null,
+   sortKey: 'name',
+   search: '',
    loading: false,
    currentEvent: {},
    message: null,
-   newArticle: { 'article_heading': null, 'article_body': null },
-   timer: 3000
+   newEvent: { 'event_date': null, 'event_time': null, 'event_kind': null, 'event_des': null, 'event_location': null, 'event_status': null },
+   timer: 300000
  },
  mounted: function() {
    this.getEvents();
@@ -36,6 +39,22 @@ new Vue({
         console.log(err);
       })
  },
+ getStatus: function(id) {
+   this.loading = true;
+   this.$http.get('/api/state/' + id)
+       .then((response) => {
+         this.event_status = response.data;
+         this.loading = false;
+       })
+       .catch((err) => {
+         this.loading = false;
+         console.log(err);
+       })
+ },
+ sortBy: function(sortKey){
+   this.reverse = (this.sortKey == sortKey) ? ! this.reverse: false;
+   this.sortKey = sortKey;
+ }
  /*addArticle: function() {
   this.loading = true;
   this.$http.post('/api/article/',this.newArticle)
@@ -47,7 +66,7 @@ new Vue({
         this.loading = false;
         console.log(err);
       })
- },*/
+ },
  updateEvent: function() {
   this.loading = true;
   console.log(this.currentEvent);
@@ -74,5 +93,10 @@ new Vue({
         console.log(err);
       })
  }*/
- },
+},
+computed: {
+    date(){
+    return event.get_date ()
+    },
+  }
 });

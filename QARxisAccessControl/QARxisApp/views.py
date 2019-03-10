@@ -13,19 +13,19 @@ from . import models
 def index(request):
   return render(request, 'index.html')
 
-@login_required(login_url="/login/")
+#@login_required(login_url="/login/")
 def event_log(request):
 	return render(request, 'event_log.html')
 
 #Views od serialized models for her representation in AngularJS
-@login_required(login_url="/login/")
+#@login_required(login_url="/login/")
 def get_dataset(request, dataset):
     model = {'events':models.Event}[dataset]
     objects = [m.marshallable() for m in model.objects.all()]
     data = json.dumps(objects)
     return HttpResponse(data)
 
-@login_required(login_url="/login/")
+#@login_required(login_url="/login/")
 def profile(request, username):
   msg = ""
   current_user = request.user
@@ -77,8 +77,8 @@ def logout_view(request):
   return HttpResponseRedirect('/')
 
 #API Views
-from QARxisApp.models import Event, Intercom, ActionCommand, Door, AccessCode, Route, Person, Location
-from QARxisApp.serializers import EventSerializer, IntercomSerializer, DoorSerializer, RouteSerializer, ActionCommandSerializer, AccessCodeSerializer, PersonSerializer, LocationSerializer
+from QARxisApp.models import Event, Intercom, ActionCommand, Door, AccessCode, Route, Person, Location, State
+from QARxisApp.serializers import EventSerializer, IntercomSerializer, DoorSerializer, RouteSerializer, ActionCommandSerializer, AccessCodeSerializer, PersonSerializer, LocationSerializer, StateSerializer
 from rest_framework import generics, permissions, viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -171,5 +171,18 @@ class EventAPIList(generics.ListCreateAPIView):
 class EventAPIDetail(generics.RetrieveUpdateDestroyAPIView):
   queryset = Event.objects.all()
   serializer_class = EventSerializer
+
+
+#State
+class StateAPIList(generics.ListCreateAPIView):
+  queryset = State.objects.all()
+  serializer_class = StateSerializer
+  filter_backends = (DjangoFilterBackend,)
+  filter_fields = ('__all__')
+
+
+class StateAPIDetail(generics.RetrieveUpdateDestroyAPIView):
+  queryset = State.objects.all()
+  serializer_class = StateSerializer
 
 # Create your views here.

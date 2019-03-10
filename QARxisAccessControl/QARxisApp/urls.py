@@ -24,6 +24,8 @@ urlpatterns=[
     url(r'api/intercom/(?P<pk>[0-9]+)/$', views.IntercomAPIDetail.as_view()),
     url(r'api/door/$', views.DoorAPIList.as_view()),
     url(r'api/door/(?P<pk>[0-9]+)/$', views.DoorAPIDetail.as_view()),
+    url(r'api/state/$', views.StateAPIList.as_view()),
+    url(r'api/state/(?P<pk>[0-9]+)/$', views.StateAPIDetail.as_view()),
     url(r'api/route/$', views.RouteAPIList.as_view()),
     url(r'api/route/(?P<pk>[0-9]+)/$', views.RouteAPIDetail.as_view()),
     url(r'api/actioncommands/$', views.ActionCommandAPIList.as_view()),

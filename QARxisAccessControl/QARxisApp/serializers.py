@@ -1,4 +1,4 @@
-from .models import Event, Intercom, ActionCommand, Door, AccessCode, Route, Person, Location
+from .models import Event, Intercom, ActionCommand, Door, AccessCode, Route, Person, Location, State
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
@@ -16,6 +16,11 @@ class IntercomSerializer(serializers.ModelSerializer):
 class DoorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Door
+        fields = '__all__'
+
+class StateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = State
         fields = '__all__'
 
 class RouteSerializer(serializers.ModelSerializer):

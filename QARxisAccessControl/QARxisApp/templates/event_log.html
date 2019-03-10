@@ -6,14 +6,14 @@
 {% endblock %}
 
 {% block head %}
-<script src="{% static 'js/app.js' %}"></script>
+
 {% endblock %}
 
 
 
 {% block content %}
-  <div id="pending_events" >
-
+  <div id="pending_events">
+    <!--
     <div class="panel-heading">
       <form>
         <div class="row">
@@ -24,113 +24,115 @@
         </div>
       </form>
     </div>
+    -->
     <div class="panel-body">
     <form>
         <div class="form-group">
           <div class="input">
-              <input type="text" class="form-control" placeholder="Search by any parameters" ng-model="searchMessage">
+              <input type="text" class="form-control" placeholder="Search by any parameters" v-model="search">
           </div>
         </div>
     </form>
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
-          <td class="center-td" ng-init = "sortType = 'date'; sortReverse = !sortReverse">
-            <a class="btn btn-td btn-default btn-sm" v-onclic="sortType = 'date'; sortReverse = !sortReverse">
-                        <span ng-hide="sortType == 'date' && !sortReverse">
-                          <i class="fa fa-1x fa-calendar">&nbsp;&nbsp;Date</i>
-                          <i class="fa fa-1x fa-arrow-circle-down" ></i>
-                        </span>
-                        <span class="fa-x-reverse" ng-show="sortType == 'date' && !sortReverse">
-                          <i class="fa fa-1x fa-calendar">&nbsp;&nbsp;Date</i>
-                          <i class="fa fa-1x fa-arrow-circle-up"></i>
-                        </span>
+          <!--
+          <th class="center-td" v-repeat = "column: columns">
+            <a class="btn btn-td btn-default btn-sm" v-onclic="sortBy(column)" v-class="active: sortKey == column">
+
+              <span ng-hide="sortType == 'date' && !sortReverse">
+                <i class="fa fa-1x fa-calendar">&nbsp;&nbsp;Date</i>
+                <i class="fa fa-1x fa-arrow-circle-down" ></i>
+              </span>
+              <span class="fa-x-reverse" ng-show="sortType == 'date' && !sortReverse">
+                <i class="fa fa-1x fa-calendar">&nbsp;&nbsp;Date</i>
+                <i class="fa fa-1x fa-arrow-circle-up"></i>
+              </span>
+            </a>
+          </th>
+          <td class="center-td" ng-init="sortType = 'time'; sortReverse = !sortReverse">
+            <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'time'; sortReverse = !sortReverse">
+              <span ng-hide="sortType == 'time' && !sortReverse">
+                <i class="fa fa-1x fa-clock-o">&nbsp;&nbsp;Time</i>
+                <i class="fa fa-1x fa-arrow-circle-down"></i>
+              </span>
+              <span class="fa-x-reverse" ng-show="sortType == 'time' && !sortReverse">
+                <i class="fa fa-1x fa-clock-o">&nbsp;&nbsp;Time</i>
+                <i class="fa fa-1x fa-arrow-circle-up"></i>
+              </span>
             </a>
           </td>
-          <td class="center-td" ng-init="sortType = 'time'; sortReverse = !sortReverse">
-                      <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'time'; sortReverse = !sortReverse">
-                        <span ng-hide="sortType == 'time' && !sortReverse">
-                          <i class="fa fa-1x fa-clock-o">&nbsp;&nbsp;Time</i>
-                          <i class="fa fa-1x fa-arrow-circle-down"></i>
-                        </span>
-                        <span class="fa-x-reverse" ng-show="sortType == 'time' && !sortReverse">
-                          <i class="fa fa-1x fa-clock-o">&nbsp;&nbsp;Time</i>
-                          <i class="fa fa-1x fa-arrow-circle-up"></i>
-                        </span>
-                      </a>
+          <td class="center-td">
+            <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'kind'; sortReverse = !sortReverse">
+              <span ng-hide="sortType == 'kind' && !sortReverse">
+                <i class="fa fa-1x fa-flag">&nbsp;&nbsp;Kind</i>
+                <i class="fa fa-1x fa-arrow-circle-down" ></i>
+              </span>
+              <span class="fa-x-reverse" ng-show="sortType == 'kind' && !sortReverse">
+                <i class="fa fa-1x fa-flag">&nbsp;&nbsp;Kind</i>
+                <i class="fa fa-1x fa-arrow-circle-up"></i>
+              </span>
+            </a>
           </td>
           <td class="center-td">
-                      <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'kind'; sortReverse = !sortReverse">
-                        <span ng-hide="sortType == 'kind' && !sortReverse">
-                          <i class="fa fa-1x fa-flag">&nbsp;&nbsp;Kind</i>
-                          <i class="fa fa-1x fa-arrow-circle-down" ></i>
-                        </span>
-                        <span class="fa-x-reverse" ng-show="sortType == 'kind' && !sortReverse">
-                          <i class="fa fa-1x fa-flag">&nbsp;&nbsp;Kind</i>
-                          <i class="fa fa-1x fa-arrow-circle-up"></i>
-                        </span>
-                      </a>
+            <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'description'; sortReverse = !sortReverse">
+              <span ng-hide="sortType == 'description' && !sortReverse">
+                <i class="fa fa-1x fa-bars">&nbsp;&nbsp;Description</i>
+                <i class="fa fa-1x fa-arrow-circle-down"></i>
+              </span>
+              <span class="fa-x-reverse" ng-show="sortType == 'description' && !sortReverse">
+                <i class="fa fa-1x fa-bars">&nbsp;&nbsp;Description</i>
+                <i class="fa fa-1x fa-arrow-circle-up"></i>
+              </span>
+            </a>
           </td>
           <td class="center-td">
-                      <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'description'; sortReverse = !sortReverse">
-                        <span ng-hide="sortType == 'description' && !sortReverse">
-                          <i class="fa fa-1x fa-bars">&nbsp;&nbsp;Description</i>
-                          <i class="fa fa-1x fa-arrow-circle-down"></i>
-                        </span>
-                        <span class="fa-x-reverse" ng-show="sortType == 'description' && !sortReverse">
-                          <i class="fa fa-1x fa-bars">&nbsp;&nbsp;Description</i>
-                          <i class="fa fa-1x fa-arrow-circle-up"></i>
-                        </span>
-                      </a>
+            <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'location'; sortReverse = !sortReverse">
+              <span ng-hide="sortType == 'location' && !sortReverse">
+                <i class="fa fa-1x fa-map-marker">&nbsp;&nbsp;Location</i>
+                <i class="fa fa-1x fa-arrow-circle-down" ></i>
+              </span>
+              <span class="fa-x-reverse" ng-show="sortType == 'location' && !sortReverse">
+                <i class="fa fa-1x fa-map-marker">&nbsp;&nbsp;Location</i>
+                <i class="fa fa-1x fa-arrow-circle-up"></i>
+              </span>
+            </a>
           </td>
           <td class="center-td">
-                      <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'location'; sortReverse = !sortReverse">
-                        <span ng-hide="sortType == 'location' && !sortReverse">
-                          <i class="fa fa-1x fa-map-marker">&nbsp;&nbsp;Location</i>
-                          <i class="fa fa-1x fa-arrow-circle-down" ></i>
-                        </span>
-                        <span class="fa-x-reverse" ng-show="sortType == 'location' && !sortReverse">
-                          <i class="fa fa-1x fa-map-marker">&nbsp;&nbsp;Location</i>
-                          <i class="fa fa-1x fa-arrow-circle-up"></i>
-                        </span>
-                      </a>
+            <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'states'; sortReverse = !sortReverse">
+              <span ng-hide="sortType == 'states' && !sortReverse">
+                <i class="fa fa-1x  fa-thermometer-quarter">&nbsp;&nbsp;States</i>
+                <i class="fa fa-1x fa-arrow-circle-down" ></i>
+              </span>
+              <span class="fa-x-reverse" ng-show="sortType == 'states' && !sortReverse">
+                <i class="fa fa-1x  fa-thermometer-quarter">&nbsp;&nbsp;States</i>
+                <i class="fa fa-1x fa-arrow-circle-up"></i>
+              </span>
+            </a>
           </td>
           <td class="center-td">
-                      <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'states'; sortReverse = !sortReverse">
-                        <span ng-hide="sortType == 'states' && !sortReverse">
-                          <i class="fa fa-1x  fa-thermometer-quarter">&nbsp;&nbsp;States</i>
-                          <i class="fa fa-1x fa-arrow-circle-down" ></i>
-                        </span>
-                        <span class="fa-x-reverse" ng-show="sortType == 'states' && !sortReverse">
-                          <i class="fa fa-1x  fa-thermometer-quarter">&nbsp;&nbsp;States</i>
-                          <i class="fa fa-1x fa-arrow-circle-up"></i>
-                        </span>
-                      </a>
+            <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'group'; sortReverse = !sortReverse">
+              <span ng-hide="sortType == 'group' && !sortReverse">
+                <i class="fa fa-1x  fa-object-group">&nbsp;&nbsp;Group</i>
+                <i class="fa fa-1x fa-arrow-circle-down"></i>
+              </span>
+              <span class="fa-x-reverse" ng-show="sortType == 'group' && !sortReverse">
+                <i class="fa fa-1x  fa-object-group">&nbsp;&nbsp;Group</i>
+                <i class="fa fa-1x fa-arrow-circle-up"></i>
+              </span>
+            </a>
           </td>
-          <td class="center-td">
-                      <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'group'; sortReverse = !sortReverse">
-                        <span ng-hide="sortType == 'group' && !sortReverse">
-                          <i class="fa fa-1x  fa-object-group">&nbsp;&nbsp;Group</i>
-                          <i class="fa fa-1x fa-arrow-circle-down"></i>
-                        </span>
-                        <span class="fa-x-reverse" ng-show="sortType == 'group' && !sortReverse">
-                          <i class="fa fa-1x  fa-object-group">&nbsp;&nbsp;Group</i>
-                          <i class="fa fa-1x fa-arrow-circle-up"></i>
-                        </span>
-                      </a>
-          </td>
+          -->
         </tr>
       </thead>
       <tbody>
-                  <tr class="[[ get_color(event.status.color) ]]" ng-repeat="event in events | orderBy:sortType:sortReverse | filter:searchMessage">
-                    <td>[[ event.date ]]</td>
-                    <td>[[ event.time ]]</td>
-                    <td>[[ event.kind ]]</td>
-                    <td>[[ event.description ]]</td>
-                    <td>[[ event.location ]]</td>
-                    <td>[[ event.status.description ]]</td>
-                    <td class="img-td"><img ng-src="/media/[[ event.status.image.url ]]" width="32"></td>
-                  </tr>
+        <tr v-for="event in events" :event_status="getStatus(event.status)">
+          <td>[[ event.kind ]]</td>
+          <td>[[ event.description ]]</td>
+          <td>[[ event.location ]]</td>
+          <td>[[ event_status.name]]</td>
+          <td>[[ date ]]</td>
+        </tr>
       </tbody>
     </table>
     </div>
@@ -148,5 +150,9 @@
         </div>
     </div>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+  <script src="{% static 'js/app.js' %}"></script>
 
 {% endblock %}
