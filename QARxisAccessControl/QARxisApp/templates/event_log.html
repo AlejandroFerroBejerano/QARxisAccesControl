@@ -126,12 +126,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="event in events" :event_status="getStatus(event.status)">
-          <td>[[ event.kind ]]</td>
-          <td>[[ event.description ]]</td>
-          <td>[[ event.location ]]</td>
-          <td>[[ event_status.name]]</td>
-          <td>[[ date ]]</td>
+        <tr v-for="event in events">
+          <td>[[ getDate(event.timestamp) ]]</td>
+          <td>[[ getTime(event.timestamp) ]]</td>
+          <td>[[ event.hwid]]</td>
+          <td>[[ event.barcode ]]</td>
         </tr>
       </tbody>
     </table>

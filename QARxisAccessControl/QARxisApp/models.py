@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
+from datetime import datetime
 
 # Create your models here.
 class ImageUploader(models.Model):
@@ -79,11 +80,13 @@ class State(models.Model):
 
 class Event(models.Model):
 
-  timestamp = models.DateTimeField()
-  kind = models.CharField(max_length = 10)
-  description = models.CharField(max_length = 50)
-  location = models.CharField(max_length = 50)
-  status = models.ManyToManyField(State)
+  timestamp = models.DateTimeField(auto_now_add=True)
+  #kind = models.CharField(max_length = 10, default=None)
+  description = models.CharField(max_length = 50, default=None, null=True)
+  location = models.CharField(max_length = 50, default=None, null=True)
+  #status = models.ManyToManyField(State)
+  hwid = models.CharField(max_length=12, default=None, null=True)
+  barcode = models.CharField(max_length=20, default=None, null=True)
 
   def get_date(self, timestamp):
     return str(timestamp).split(' ')[0]
@@ -108,16 +111,17 @@ class Event(models.Model):
 
 class Intercom(models.Model):
   name = models.CharField(max_length=50)
-  address = models.GenericIPAddressField()
-  description = models.CharField(max_length=100)
+  address = models.GenericIPAddressField(default='192.168.1.10')
+  macaddres = models.CharField(max_length=12, default=None, unique=True)
+  description = models.CharField(max_length=100, default=None, null=True)
 
   def __str__(self):
     return self.name
 
 class ActionCommand(models.Model):
     name = models.CharField(max_length=50)
-    action_uri = models.CharField(max_length = 100)
-    description = models.CharField(max_length = 100)
+    action_uri = models.CharField(max_length = 100, default=None, null=True)
+    description = models.CharField(max_length = 100, default=None, null=True)
 
     def __str__(self):
         return self.name
@@ -131,7 +135,7 @@ class Door(models.Model):
       return self.name
 
 class AccessCode(models.Model):
-    code = models.BigIntegerField(unique=True)
+    code = models.CharField(max_length=20, unique=True)
     active = models.BooleanField(default=True)
     valid_from = models.DateTimeField()
     valid_until = models.DateTimeField()

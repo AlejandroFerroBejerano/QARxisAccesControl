@@ -8,7 +8,6 @@ router = routers.DefaultRouter()
 
 urlpatterns=[
     url(r'^$', views.index, name='index'),
-    url(r'^event_log/data/(?P<dataset>.+).json', views.get_dataset),
     url(r'^event_log/$', views.event_log, name='event_log'),
         #login
     url(r'^user/(\w+)/$', views.profile, name='profile'),
