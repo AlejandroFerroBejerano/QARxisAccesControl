@@ -25,6 +25,7 @@
       </form>
     </div>
     -->
+    DEBUG sort=[[currentSort]], dir=[[currentSortDir]]
     <div class="panel-body">
     <form>
         <div class="form-group">
@@ -34,58 +35,66 @@
         </div>
     </form>
     <table class="table table-bordered table-striped">
+
       <thead>
         <tr>
-          <!--
-          <th class="center-td" v-repeat = "column: columns">
-            <a class="btn btn-td btn-default btn-sm" v-onclic="sortBy(column)" v-class="active: sortKey == column">
-
-              <span ng-hide="sortType == 'date' && !sortReverse">
+          <th class="center-td" >
+            <a class="btn btn-td btn-default btn-sm" @click="sort('timestamp')" >
+              <span>
                 <i class="fa fa-1x fa-calendar">&nbsp;&nbsp;Date</i>
                 <i class="fa fa-1x fa-arrow-circle-down" ></i>
               </span>
-              <span class="fa-x-reverse" ng-show="sortType == 'date' && !sortReverse">
+              <!--
+              <span class="fa-x-reverse" v-show="sortKey == 'date' && !sortReverse">
                 <i class="fa fa-1x fa-calendar">&nbsp;&nbsp;Date</i>
                 <i class="fa fa-1x fa-arrow-circle-up"></i>
               </span>
+              -->
             </a>
           </th>
-          <td class="center-td" ng-init="sortType = 'time'; sortReverse = !sortReverse">
-            <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'time'; sortReverse = !sortReverse">
-              <span ng-hide="sortType == 'time' && !sortReverse">
+          <td class="center-td">
+            <a class="btn btn-td btn-default btn-sm" @click="sort('timestamp')" >
+              <span>
                 <i class="fa fa-1x fa-clock-o">&nbsp;&nbsp;Time</i>
                 <i class="fa fa-1x fa-arrow-circle-down"></i>
               </span>
-              <span class="fa-x-reverse" ng-show="sortType == 'time' && !sortReverse">
+              <!--
+              <span class="fa-x-reverse" v-show="sortKey == 'time' && !sortReverse">
                 <i class="fa fa-1x fa-clock-o">&nbsp;&nbsp;Time</i>
                 <i class="fa fa-1x fa-arrow-circle-up"></i>
               </span>
+              -->
             </a>
           </td>
           <td class="center-td">
-            <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'kind'; sortReverse = !sortReverse">
-              <span ng-hide="sortType == 'kind' && !sortReverse">
-                <i class="fa fa-1x fa-flag">&nbsp;&nbsp;Kind</i>
+            <a class="btn btn-td btn-default btn-sm" @click="sort('hwid')" >
+              <span>
+                <i class="fa fa-1x fa-flag">&nbsp;&nbsp;HwId</i>
                 <i class="fa fa-1x fa-arrow-circle-down" ></i>
               </span>
-              <span class="fa-x-reverse" ng-show="sortType == 'kind' && !sortReverse">
+              <!--
+              <span class="fa-x-reverse" v-show="sortKey == 'hwid' && !sortReverse">
                 <i class="fa fa-1x fa-flag">&nbsp;&nbsp;Kind</i>
                 <i class="fa fa-1x fa-arrow-circle-up"></i>
               </span>
+              -->
             </a>
           </td>
           <td class="center-td">
-            <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'description'; sortReverse = !sortReverse">
-              <span ng-hide="sortType == 'description' && !sortReverse">
-                <i class="fa fa-1x fa-bars">&nbsp;&nbsp;Description</i>
+            <a class="btn btn-td btn-default btn-sm" @click="sort('barcode')" >
+              <span>
+                <i class="fa fa-1x fa-bars">&nbsp;&nbsp;Barcode</i>
                 <i class="fa fa-1x fa-arrow-circle-down"></i>
               </span>
-              <span class="fa-x-reverse" ng-show="sortType == 'description' && !sortReverse">
+              <!--
+              <span class="fa-x-reverse" v-show="sortKey == 'description' && !sortReverse">
                 <i class="fa fa-1x fa-bars">&nbsp;&nbsp;Description</i>
                 <i class="fa fa-1x fa-arrow-circle-up"></i>
               </span>
+              -->
             </a>
           </td>
+          <!--
           <td class="center-td">
             <a class="btn btn-td btn-default btn-sm" ng-click="sortType = 'location'; sortReverse = !sortReverse">
               <span ng-hide="sortType == 'location' && !sortReverse">
@@ -125,11 +134,12 @@
           -->
         </tr>
       </thead>
+
       <tbody>
-        <tr v-for="event in events">
+        <tr v-for="event in sortedEvents">
           <td>[[ getDate(event.timestamp) ]]</td>
           <td>[[ getTime(event.timestamp) ]]</td>
-          <td>[[ event.hwid]]</td>
+          <td>[[ event.hwid ]]</td>
           <td>[[ event.barcode ]]</td>
         </tr>
       </tbody>
@@ -138,7 +148,7 @@
     </div>
 
 
-    <div id="div1" v-show="events.length == 0 || !events " style="padding: 20px 20px">
+    <div v-show="events.length == 0 || !events " style="padding: 20px 20px">
         <div id="noEventAviable" class="panel panel-warning my-cloak">
           <div class="panel-heading" >
             <h3 class="panel-title">Events Unaviable</h3>
