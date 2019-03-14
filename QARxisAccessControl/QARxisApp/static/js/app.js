@@ -10,15 +10,15 @@ const app = new Vue({
      search: '',
      currentEvent: {},
      message: null,
-     newEvent: { 'event_date': null, 'event_time': null, 'event_kind': null, 'event_des': null, 'event_location': null, 'event_status': null },
-     timer: 10000
+     sort_events: [],
+     timer: 5000
    },
-   /*mounted: function() {
+   mounted: function() {
      this.getEvents();
      setInterval(function() {
        this.getEvents();
      }.bind(this), this.timer);
-   },*/
+   },
    created:function() {
      this.getEvents();
    },
@@ -61,12 +61,18 @@ const app = new Vue({
    },
   computed: {
     sortedEvents:function(){
-      return this.events.sort((a,b) => {
+      this.sort_events = this.events.sort((a,b) => {
         let modifier = 1;
         if (this.currentSortDir === 'desc') modifier = -1;
         if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
         if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
         return 0;
+      });
+      return this.sort_events;
+    },
+    filteredEvents() {
+      return this.sortedEvents.filter(event => {
+        return event.timestamp.toLowerCase().includes(this.search.toLowerCase())
       });
     },
   }

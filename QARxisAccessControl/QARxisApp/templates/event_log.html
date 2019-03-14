@@ -30,7 +30,7 @@
     <form>
         <div class="form-group">
           <div class="input">
-              <input type="text" class="form-control" placeholder="Search by any parameters" v-model="search">
+              <input type="text" class="form-control" v-model="search" placeholder="Search by any parameters" v-model="search">
           </div>
         </div>
     </form>
@@ -136,7 +136,7 @@
       </thead>
 
       <tbody>
-        <tr v-for="event in sortedEvents">
+        <tr v-for="event in filteredEvents">
           <td>[[ getDate(event.timestamp) ]]</td>
           <td>[[ getTime(event.timestamp) ]]</td>
           <td>[[ event.hwid ]]</td>
